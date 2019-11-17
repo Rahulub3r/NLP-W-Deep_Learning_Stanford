@@ -1,1 +1,5 @@
 # Natural Language Processing with Deep Learning (Dr. Chris Manning)
+
+[This](http://web.stanford.edu/class/cs224n/) is the link to the **FREE** course
+
+In case, pre-requisite skills are rusty, [this](https://machinelearningmastery.com/stanford-deep-learning-for-natural-language-processing-course/) link has links to the information
