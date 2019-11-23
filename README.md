@@ -5,6 +5,6 @@
 In case, pre-requisite skills are rusty, [this](https://machinelearningmastery.com/stanford-deep-learning-for-natural-language-processing-course/) link has links to the information
 
 Solutions:
-Assignment 1 Code [here](/Assignment_1/exploring_word_vectors.ipynb)
-
-Assignment 2 Written Solutions here
+1. Assignment 1 Code [here](/Assignment_1/exploring_word_vectors.ipynb)
+2. Assignment 2 Written Solutions [here](/Assignment_2/assignment2_written.pdf)
+3. Assignment 2's word2vec code [here](/Assignment_2/word2vec.py), stochastic gradient descent code [here](/Assignment_2/sgd.py)
