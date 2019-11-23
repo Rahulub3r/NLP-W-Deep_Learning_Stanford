@@ -143,12 +143,11 @@ def negSamplingLossAndGradient(
     # dJ / du_k
     gradOutsideVecs = np.zeros(outsideVectors.shape)
 
-    gradOutsideVecs[outsideWordIdx, :] += centerWordVec * (sigmoid(np.dot(centerWordVec, u_o))-1)
+    gradOutsideVecs[outsideWordIdx, :] = centerWordVec * (sigmoid(np.dot(centerWordVec, u_o))-1)
 
+    dJ_du_k = centerWordVec * (1- sigmoid(-np.dot(negOutsideVecs, centerWordVec[:, None])))
     for k in range(len(negSampleWordIndices)):
-        negSampleWordIndex = negSampleWordIndices[k]
-        u_k = outsideVectors[negSampleWordIndex, :]
-        gradOutsideVecs[negSampleWordIndex, :] += centerWordVec * (1- sigmoid(-np.dot(centerWordVec, u_k)))
+        gradOutsideVecs[negSampleWordIndices[k], :] += dJ_du_k[k, :]
 
     ### END YOUR CODE
 
