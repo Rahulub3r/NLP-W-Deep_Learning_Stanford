@@ -123,29 +123,24 @@ def negSamplingLossAndGradient(
 
     ### Please use your implementation of sigmoid in here.
     u_o = outsideVectors[outsideWordIdx, :]
-
-    negOutsideVecs = outsideVectors[negSampleWordIndices, :] #u_k
+    negOutsideVecs = -outsideVectors[negSampleWordIndices, :]
+    negOutsideVecs = np.append([u_o], negOutsideVecs, axis=0)
 
     # Loss
-    loss = np.log(sigmoid(np.dot(u_o, centerWordVec))) + np.sum(np.log(sigmoid(-np.dot(negOutsideVecs, centerWordVec))))
-    #loss = np.sum(sigmoid(np.dot(negOutsideVecs, centerWordVec)))
+    loss = np.sum(np.log(sigmoid(np.dot(negOutsideVecs, centerWordVec))))
 
     # dJ / dv_c
-    gradCenterVec_t1 = u_o*(sigmoid(np.dot(centerWordVec, u_o))-1)
+    gradCenter_t1 = sigmoid(np.dot(negOutsideVecs, centerWordVec))-1
 
-    gradCenterVec_t2_1 = sigmoid(-np.dot(negOutsideVecs, centerWordVec))-1
-    gradCenterVec_t2 = np.sum(negOutsideVecs * gradCenterVec_t2_1[:, None], axis=0)
-
-    gradCenterVec =  gradCenterVec_t1 - gradCenterVec_t2
-
-    #gradCenterVec = u_o * (sigmoid(np.dot(u_o, centerWordVec))-1) - np.sum(negOutsideVecs.T * (sigmoid(np.dot(negOutsideVecs, centerWordVec)) - 1), axis=1)
+    gradCenterVec = np.sum(negOutsideVecs*gradCenter_t1[:,None], axis=0)
 
     # dJ / du_k
     gradOutsideVecs = np.zeros(outsideVectors.shape)
 
     gradOutsideVecs[outsideWordIdx, :] = centerWordVec * (sigmoid(np.dot(centerWordVec, u_o))-1)
 
-    dJ_du_k = centerWordVec * (1- sigmoid(-np.dot(negOutsideVecs, centerWordVec[:, None])))
+    dJ_du_k = centerWordVec * (1- sigmoid(np.dot(negOutsideVecs[1:,:], centerWordVec[:, None])))
+
     for k in range(len(negSampleWordIndices)):
         gradOutsideVecs[negSampleWordIndices[k], :] += dJ_du_k[k, :]
 
